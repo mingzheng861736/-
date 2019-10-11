@@ -1,0 +1,35 @@
+<html>
+<head>
+    <title>Title</title>
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script src="js/qrcode.min.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="qrcode"></div>
+<script>
+    $.ajax({
+        url: "api/wx/createcode/D100000120170630153605bf38cc",
+        method: "get",
+        success: function (data) {
+            new QRCode(document.getElementById('qrcode'), data.data.code_url);
+        }
+    });
+
+    function queryOrder() {
+        $.ajax({
+            url: "api/wx/queryorderstatus/D100000120170630153605bf38cc",
+            method: "get",
+            success: function (result) {
+                if (result.success == 'true') {
+                    var orderStatus = result.data.orderStatus;
+                    if (orderStatus == 2) {
+                        window.location.href = "http://www.baidu.com";
+                    }
+                }
+            }
+        });
+    }
+    setInterval(queryOrder, 5000);
+</script>
+</body>
+</html>
